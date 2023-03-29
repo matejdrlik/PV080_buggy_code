@@ -1,5 +1,5 @@
-import sys 
-import os
+import urllib
+
 import yaml
 import flask
 
@@ -18,6 +18,15 @@ class Person(object):
     def __init__(self, name):
         self.name = name
 
+    def __str__(self):
+        return self.name
+
+    def __getattribute__(self, item):
+        if item == "name":
+            return "Vickie"
+        else:
+            return super().__getattribute__(item)
+
 
 def print_nametag(format_string, person):
     print(format_string.format(person=person))
@@ -31,6 +40,7 @@ def fetch_website(urllib_version, url):
     try: 
         http = urllib.PoolManager()
         r = http.request('GET', url)
+        print(r.data)
     except:
         print('Exception')
 
